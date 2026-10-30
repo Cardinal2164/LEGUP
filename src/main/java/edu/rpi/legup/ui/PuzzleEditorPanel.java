@@ -25,6 +25,8 @@ import edu.rpi.legup.ui.proofeditorui.rulesview.RuleFrame;
 import edu.rpi.legup.ui.puzzleeditorui.elementsview.ElementFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.IOException;
@@ -98,7 +100,7 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         this.frame = frame;
         this.legupUI = legupUI;
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(800, 700));
+        setPreferredSize(null);
     }
 
     /**
@@ -163,7 +165,12 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
 
         splitPanel.setDividerLocation(splitPanel.getMaximumDividerLocation() + 100);
         this.splitPanel = splitPanel;
+
+        System.out.print("Pre Size: " + frame.getSize());
         revalidate();
+        //setPreferredSize(new Dimension(500,900));
+
+        System.out.print("Post Size: " + frame.getSize());
     }
 
     /**
@@ -328,6 +335,14 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         menus[2].add(aboutLegup);
         menus[2].add(legupWiki);
 
+
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                System.out.println("JFrame resized to: " + frame.getSize());
+            }
+        });
+
         // add menus to menubar
         for (JMenu menu : menus) {
             menuBar.add(menu);
@@ -358,6 +373,8 @@ public class PuzzleEditorPanel extends LegupPanel implements IHistoryListener {
         setupToolBar1();
         setupContent();
         setMenuBar();
+
+        LegupPreferences.setScreenSize( false );
     }
 
     /**

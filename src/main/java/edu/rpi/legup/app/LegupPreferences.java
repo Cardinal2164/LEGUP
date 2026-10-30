@@ -1,5 +1,8 @@
 package edu.rpi.legup.app;
 
+import edu.rpi.legup.ui.LegupUI;
+
+import javax.swing.*;
 import java.nio.file.Paths;
 import java.util.EnumMap;
 import java.util.Map;
@@ -228,6 +231,20 @@ public class LegupPreferences {
     }
 
     public static boolean getFullScreen() {return LegupPreference.FULL_SCREEN.asBoolean();}
+
+    public static void setScreenSize(boolean isClick) {
+        LegupUI ui = GameBoardFacade.getInstance().getLegupUI();
+        boolean full = ( isClick && !LegupPreferences.getFullScreen() )
+                || ( !isClick && LegupPreferences.getFullScreen() );
+        System.out.print("Bool for Fullscreen is: " + full + "\n");
+
+
+        if( full ) {
+            ui.setExtendedState(ui.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        } else {
+            ui.setExtendedState(JFrame.NORMAL); }
+    }
+
 
     public static boolean autoUpdate() {
         return LegupPreference.AUTO_UPDATE.asBoolean();
